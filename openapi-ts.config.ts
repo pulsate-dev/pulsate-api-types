@@ -1,4 +1,4 @@
-import { defineConfig } from "@hey-api/openapi-ts";
+import { defineConfig } from "openapi-ts";
 
 export default defineConfig({
   input: "./schema.json",
