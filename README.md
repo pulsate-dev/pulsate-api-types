@@ -1,6 +1,7 @@
 # pulsate-api-types
 
-TypeScript types generated from the Pulsate OpenAPI schema.
+TypeScript types and a Fetch API client generated from the Pulsate OpenAPI
+schema.
 
 The source package is published as `@pulsate/exp-api-types` on JSR and as
 `@pulsate-dev/exp-api-types` on npm.
@@ -15,6 +16,38 @@ deno add jsr:@pulsate/exp-api-types
 npm install @pulsate-dev/exp-api-types
 ```
 
+## Use Fetch Client
+
+```ts
+import { client, getV0TimelinePublic } from "@pulsate-dev/exp-api-types";
+
+client.setConfig({
+  baseUrl: "https://demo.pulsate.dev",
+});
+
+const { data, error } = await getV0TimelinePublic();
+
+if (error) {
+  throw error;
+}
+
+console.log(data[0]?.content);
+```
+
+## Use Types
+
+```ts
+import type { GetPublicTimelineResponse } from "@pulsate-dev/exp-api-types";
+
+type TimelineProps = {
+  timeline: GetPublicTimelineResponse;
+};
+
+export function Timeline({ timeline }: TimelineProps) {
+  return timeline.map((note) => note.content);
+}
+```
+
 ## Generate Types
 
 Requirements: Deno 2.
@@ -25,7 +58,8 @@ deno task build
 
 `deno task build` fetches the OpenAPI schema from the fixed
 `@pulsate-dev/api-schema` version in `deno.json`, generates `src/`, and does not
-require a locally copied schema file.
+require a locally copied schema file. OpenAPI descriptions are emitted as JSDoc
+comments in generated types and operation functions.
 
 To update the schema, explicitly change the `@pulsate-dev/api-schema` version in
 `deno.json` and `package.json`, then regenerate the types and lockfile.

@@ -19,7 +19,8 @@ await build({
   package: {
     name: "@pulsate-dev/exp-api-types",
     version,
-    description: "TypeScript types for the Pulsate API (Experimental)",
+    description:
+      "TypeScript types and Fetch API client for Pulsate (Experimental)",
     license: "Apache-2.0",
     repository: {
       type: "git",

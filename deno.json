@@ -12,7 +12,7 @@
   },
   "tasks": {
     "prepare-schema": "deno run --allow-read --allow-write scripts/prepare-schema.ts",
-    "build": "deno task prepare-schema && deno run -A npm:@hey-api/openapi-ts@0.90.3 && sed -i .bk \"s|'./types\\.gen'|'./types.gen.ts'|\" ./src/index.ts && rm ./src/index.ts.bk",
+    "build": "deno task prepare-schema && deno run -A npm:@hey-api/openapi-ts@0.99.0",
     "build-npm": "deno task build && deno run -A scripts/build-npm.ts"
   }
 }
