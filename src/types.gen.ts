@@ -163,9 +163,9 @@ export type LoginResponse = {
 
 export type LoginRequest = {
     /**
-     * account name
+     * email address
      */
-    name: string;
+    email: string;
     /**
      * Passphrase
      */
@@ -191,6 +191,25 @@ export type ResendVerificationEmailRequest = {
 };
 
 export type GetAccountFollowingResponse = Array<GetAccountResponse>;
+
+export type GetAccountRelationshipsResponse = {
+    /**
+     * Account ID
+     */
+    id: string;
+    /**
+     * Whether the account is followed by the target account
+     */
+    is_followed: boolean;
+    /**
+     * Whether the account is following the target account
+     */
+    is_following: boolean;
+    /**
+     * Whether a follow request has been sent to the target account
+     */
+    is_follow_requesting: boolean;
+};
 
 export type GetAccountTimelineResponse = Array<{
     /**
@@ -220,7 +239,7 @@ export type GetAccountTimelineResponse = Array<{
         /**
          * Reaction Emoji (Unicode or Custom Emoji)
          */
-        emoji: string | string;
+        emoji: string;
         /**
          * Reacted account ID
          */
@@ -273,6 +292,14 @@ export type GetAccountTimelineResponse = Array<{
         followed_count: number;
         following_count: number;
     };
+    /**
+     * Original note ID (if this note is a renote)
+     */
+    original_note_id?: string;
+    /**
+     * Whether the current user has renoted this note (always false if not logged in)
+     */
+    renoted: boolean;
 }>;
 
 export type AccountId = string;
@@ -309,13 +336,17 @@ export type GetListTimelineResponse = Array<{
         following_count: number;
     };
     /**
+     * Original note ID (if this note is a renote)
+     */
+    original_note_id?: string;
+    /**
      * Reactions
      */
     reactions: Array<{
         /**
          * Reaction Emoji (Unicode or Custom Emoji)
          */
-        emoji: string | string;
+        emoji: string;
         /**
          * Reacted account ID
          */
@@ -374,7 +405,7 @@ export type CreateListResponse = {
     /**
      * If true, list is public
      */
-    public: boolean;
+    public?: boolean;
 };
 
 export type CreateListRequest = {
@@ -385,7 +416,7 @@ export type CreateListRequest = {
     /**
      * If true, list is public
      */
-    public: boolean;
+    public?: boolean;
 };
 
 export type EditListResponse = {
@@ -400,7 +431,7 @@ export type EditListResponse = {
     /**
      * If true, list is public
      */
-    public: boolean;
+    public?: boolean;
 };
 
 export type EditListRequest = {
@@ -426,7 +457,7 @@ export type FetchListResponse = {
     /**
      * If true, list is public
      */
-    public: boolean;
+    public?: boolean;
 };
 
 export type GetListMemberResponseSchema = {
@@ -473,6 +504,97 @@ export type GetListConversationsResponse = Array<{
      * Last message sent
      */
     updatedAt: string;
+}>;
+
+export type GetPublicTimelineResponse = Array<{
+    /**
+     * Note ID
+     */
+    id: string;
+    /**
+     * Note content
+     */
+    content: string;
+    /**
+     * Contents warning comment
+     */
+    contents_warning_comment: string;
+    /**
+     * Note visibility (PUBLIC/HOME/FOLLOWERS/DIRECT)
+     */
+    visibility: string;
+    /**
+     * Note created date
+     */
+    created_at: string;
+    /**
+     * Reactions
+     */
+    reactions: Array<{
+        /**
+         * Reaction Emoji (Unicode or Custom Emoji)
+         */
+        emoji: string;
+        /**
+         * Reacted account ID
+         */
+        reacted_by: string;
+    }>;
+    /**
+     * Note Attachment Media
+     */
+    attachment_files: Array<{
+        /**
+         * attachment Medium id
+         */
+        id: string;
+        /**
+         * attachment filename
+         */
+        name: string;
+        /**
+         * attachment author account id
+         */
+        author_id: string;
+        /**
+         * attachment medium blurhash
+         */
+        hash: string;
+        /**
+         * attachment medium mime type
+         */
+        mime: string;
+        /**
+         * if true, attachment is nsfw
+         */
+        nsfw: boolean;
+        /**
+         * attachment medium url
+         */
+        url: string;
+        /**
+         * attachment thumbnail url
+         */
+        thumbnail: string;
+    }>;
+    author: {
+        id: string;
+        name: string;
+        display_name: string;
+        bio: string;
+        avatar: string;
+        header: string;
+        followed_count: number;
+        following_count: number;
+    };
+    /**
+     * Original note ID (if this note is a renote)
+     */
+    original_note_id?: string;
+    /**
+     * Whether the current user has renoted this note (always false if not logged in)
+     */
+    renoted: boolean;
 }>;
 
 export type PostV0AccountsData = {
@@ -548,15 +670,6 @@ export type PatchV0AccountsNameErrors = {
          * Account not found.
          */
         error: 'ACCOUNT_NOT_FOUND';
-    };
-    /**
-     * etag is invalid
-     */
-    412: {
-        /**
-         * ETag is invalid.
-         */
-        error: 'INVALID_ETAG';
     };
     /**
      * Internal Server Error
@@ -1276,6 +1389,54 @@ export type PostV0AccountsNameAvatarResponses = {
 
 export type PostV0AccountsNameAvatarResponse = PostV0AccountsNameAvatarResponses[keyof PostV0AccountsNameAvatarResponses];
 
+export type DeleteV0AccountsNameHeaderData = {
+    body?: never;
+    path: {
+        /**
+         * Characters must be [A-Za-z0-9-.] The first and last characters must be [A-Za-z0-9-.]
+         */
+        name: string;
+    };
+    query?: never;
+    url: '/v0/accounts/:name/header';
+};
+
+export type DeleteV0AccountsNameHeaderErrors = {
+    /**
+     * You can not do this action.
+     */
+    403: {
+        /**
+         * You can't do this action.
+         */
+        error: 'NO_PERMISSION';
+    };
+    /**
+     * account not found
+     */
+    404: {
+        /**
+         * Account not found.
+         */
+        error: 'ACCOUNT_NOT_FOUND';
+    };
+    /**
+     * Internal Server Error
+     */
+    500: InternalErrorResponse;
+};
+
+export type DeleteV0AccountsNameHeaderError = DeleteV0AccountsNameHeaderErrors[keyof DeleteV0AccountsNameHeaderErrors];
+
+export type DeleteV0AccountsNameHeaderResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type DeleteV0AccountsNameHeaderResponse = DeleteV0AccountsNameHeaderResponses[keyof DeleteV0AccountsNameHeaderResponses];
+
 export type PostV0AccountsNameHeaderData = {
     body?: {
         /**
@@ -1326,28 +1487,19 @@ export type PostV0AccountsNameHeaderResponses = {
 
 export type PostV0AccountsNameHeaderResponse = PostV0AccountsNameHeaderResponses[keyof PostV0AccountsNameHeaderResponses];
 
-export type DeleteV0AccountsNameHeadData = {
+export type GetV0AccountsIdRelationshipsData = {
     body?: never;
     path: {
         /**
-         * Characters must be [A-Za-z0-9-.] The first and last characters must be [A-Za-z0-9-.]
+         * Account ID
          */
-        name: string;
+        id: string;
     };
     query?: never;
-    url: '/v0/accounts/:name/head';
+    url: '/v0/accounts/:id/relationships';
 };
 
-export type DeleteV0AccountsNameHeadErrors = {
-    /**
-     * You can not do this action.
-     */
-    403: {
-        /**
-         * You can't do this action.
-         */
-        error: 'NO_PERMISSION';
-    };
+export type GetV0AccountsIdRelationshipsErrors = {
     /**
      * account not found
      */
@@ -1363,16 +1515,16 @@ export type DeleteV0AccountsNameHeadErrors = {
     500: InternalErrorResponse;
 };
 
-export type DeleteV0AccountsNameHeadError = DeleteV0AccountsNameHeadErrors[keyof DeleteV0AccountsNameHeadErrors];
+export type GetV0AccountsIdRelationshipsError = GetV0AccountsIdRelationshipsErrors[keyof GetV0AccountsIdRelationshipsErrors];
 
-export type DeleteV0AccountsNameHeadResponses = {
+export type GetV0AccountsIdRelationshipsResponses = {
     /**
-     * No Content
+     * OK
      */
-    204: void;
+    200: GetAccountRelationshipsResponse;
 };
 
-export type DeleteV0AccountsNameHeadResponse = DeleteV0AccountsNameHeadResponses[keyof DeleteV0AccountsNameHeadResponses];
+export type GetV0AccountsIdRelationshipsResponse = GetV0AccountsIdRelationshipsResponses[keyof GetV0AccountsIdRelationshipsResponses];
 
 export type PostV0NotesData = {
     body?: {
@@ -1599,7 +1751,7 @@ export type GetV0NotesIdResponses = {
             /**
              * Reaction Emoji (Unicode or Custom Emoji)
              */
-            emoji: string | string;
+            emoji: string;
             /**
              * Reacted account ID
              */
@@ -1642,6 +1794,10 @@ export type GetV0NotesIdResponses = {
              */
             thumbnail: string;
         }>;
+        /**
+         * Whether the current user has renoted this note (always false if not logged in)
+         */
+        renoted: boolean;
     };
 };
 
@@ -1654,9 +1810,9 @@ export type PostV0NotesIdRenoteData = {
          */
         content: string;
         /**
-         * Note visibility (public/home/followers)
+         * Note visibility (PUBLIC/HOME)
          */
-        visibility: 'public' | 'home' | 'followers';
+        visibility: 'PUBLIC' | 'HOME';
         /**
          * Attachment file IDs (max 16 files)
          */
@@ -2257,7 +2413,7 @@ export type GetV0TimelineHomeResponses = {
             /**
              * Reaction Emoji (Unicode or Custom Emoji)
              */
-            emoji: string | string;
+            emoji: string;
             /**
              * Reacted account ID
              */
@@ -2310,6 +2466,14 @@ export type GetV0TimelineHomeResponses = {
             followed_count: number;
             following_count: number;
         };
+        /**
+         * Original note ID (if this note is a renote)
+         */
+        original_note_id?: string;
+        /**
+         * Whether the current user has renoted this note (always false if not logged in)
+         */
+        renoted: boolean;
     }>;
 };
 
@@ -2812,7 +2976,7 @@ export type GetV0TimelineBookmarksResponses = {
             /**
              * Reaction Emoji (Unicode or Custom Emoji)
              */
-            emoji: string | string;
+            emoji: string;
             /**
              * Reacted account ID
              */
@@ -2865,6 +3029,14 @@ export type GetV0TimelineBookmarksResponses = {
             followed_count: number;
             following_count: number;
         };
+        /**
+         * Original note ID (if this note is a renote)
+         */
+        original_note_id?: string;
+        /**
+         * Whether the current user has renoted this note (always false if not logged in)
+         */
+        renoted: boolean;
     }>;
 };
 
@@ -2899,6 +3071,178 @@ export type GetV0TimelineConversationsResponses = {
 };
 
 export type GetV0TimelineConversationsResponse = GetV0TimelineConversationsResponses[keyof GetV0TimelineConversationsResponses];
+
+export type GetV0TimelinePublicData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * If true, only return notes with attachment
+         */
+        has_attachment?: boolean;
+        /**
+         * If true, only return notes without sensitive content
+         */
+        no_nsfw?: boolean;
+        /**
+         * Return notes before this note ID. specified note ID is not included. NOTE: after_id and before_id are exclusive.
+         */
+        before_id?: string;
+        /**
+         * Return notes after this note ID. Specified note is not included. NOTE: after_id and before_id are exclusive.
+         */
+        after_id?: string;
+    };
+    url: '/v0/timeline/public';
+};
+
+export type GetV0TimelinePublicErrors = {
+    /**
+     * Nothing left
+     */
+    404: {
+        /**
+         * No more notes exist
+         */
+        error: 'NOTHING_LEFT';
+    };
+    /**
+     * Internal error
+     */
+    500: {
+        /**
+         * Internal server error
+         */
+        error: 'INTERNAL_ERROR';
+    };
+};
+
+export type GetV0TimelinePublicError = GetV0TimelinePublicErrors[keyof GetV0TimelinePublicErrors];
+
+export type GetV0TimelinePublicResponses = {
+    /**
+     * OK
+     */
+    200: GetPublicTimelineResponse;
+};
+
+export type GetV0TimelinePublicResponse = GetV0TimelinePublicResponses[keyof GetV0TimelinePublicResponses];
+
+export type GetV0NotificationsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        limit?: number;
+        /**
+         * Return notes after this notification ID. Specified notification is not included.
+         */
+        after_id?: string;
+        include_read?: boolean | null;
+    };
+    url: '/v0/notifications';
+};
+
+export type GetV0NotificationsErrors = {
+    /**
+     * Nothing left
+     */
+    404: {
+        /**
+         * No more notes exist
+         */
+        error: 'NOTHING_LEFT';
+    };
+    /**
+     * Internal error
+     */
+    500: {
+        /**
+         * Internal server error
+         */
+        error: 'INTERNAL_ERROR';
+    };
+};
+
+export type GetV0NotificationsError = GetV0NotificationsErrors[keyof GetV0NotificationsErrors];
+
+export type GetV0NotificationsResponses = {
+    /**
+     * OK
+     */
+    200: Array<{
+        id: string;
+        actor: {
+            type: 'account' | 'system';
+            id: string;
+            name: string;
+            nickname: string;
+            avatar: string;
+        };
+        createdAt: string;
+        type: 'followed';
+    } | {
+        id: string;
+        actor: {
+            type: 'account' | 'system';
+            id: string;
+            name: string;
+            nickname: string;
+            avatar: string;
+        };
+        createdAt: string;
+        type: 'followAccepted';
+    } | {
+        id: string;
+        actor: {
+            type: 'account' | 'system';
+            id: string;
+            name: string;
+            nickname: string;
+            avatar: string;
+        };
+        createdAt: string;
+        type: 'followRequested';
+    } | {
+        id: string;
+        actor: {
+            type: 'account' | 'system';
+            id: string;
+            name: string;
+            nickname: string;
+            avatar: string;
+        };
+        createdAt: string;
+        type: 'mentioned';
+        noteId: string;
+    } | {
+        id: string;
+        actor: {
+            type: 'account' | 'system';
+            id: string;
+            name: string;
+            nickname: string;
+            avatar: string;
+        };
+        createdAt: string;
+        type: 'renoted';
+        noteId: string;
+    } | {
+        id: string;
+        actor: {
+            type: 'account' | 'system';
+            id: string;
+            name: string;
+            nickname: string;
+            avatar: string;
+        };
+        createdAt: string;
+        type: 'reacted';
+        noteId: string;
+        content: string;
+    }>;
+};
+
+export type GetV0NotificationsResponse = GetV0NotificationsResponses[keyof GetV0NotificationsResponses];
 
 export type PostV0NotificationsIdReadData = {
     body?: never;

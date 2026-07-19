@@ -1,5 +1,11 @@
 import { build, emptyDir } from "@deno/dnt";
 
+const { version } = JSON.parse(Deno.readTextFileSync("deno.json"));
+
+if (typeof version !== "string") {
+  throw new Error("deno.json must define a package version");
+}
+
 await emptyDir("./npm");
 
 await build({
@@ -12,7 +18,7 @@ await build({
   test: false,
   package: {
     name: "@pulsate-dev/exp-api-types",
-    version: Deno.args[0],
+    version,
     description: "TypeScript types for the Pulsate API (Experimental)",
     license: "Apache-2.0",
     repository: {
