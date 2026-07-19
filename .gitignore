@@ -1,4 +1,6 @@
+.generated/
 schema.json
+.idea/
 .vscode/
 npm
 .log
