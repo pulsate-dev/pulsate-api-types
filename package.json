@@ -4,13 +4,13 @@
   "license": "Apache-2.0",
   "main": "index.js",
   "scripts": {
-    "build": "deno run -A npm:@hey-api/openapi-ts && sed -i .bk 's/.gen/.gen.ts/g' ./src/index.ts && rm ./src/index.ts.bk",
-    "build-node-package": "deno run -A scripts/build-npm.ts"
+    "build": "deno task build",
+    "build-node-package": "deno task build-npm"
   },
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
     "@pulsate-dev/api-schema": "0.1.0",
-    "@hey-api/openapi-ts": "0.90.3",
+    "@hey-api/openapi-ts": "0.99.0",
     "typescript": "5.9.3"
   }
 }
