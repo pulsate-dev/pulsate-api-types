@@ -1,5 +1,8 @@
 # pulsate-api-types
 
+[![JSR](https://jsr.io/badges/@pulsate/exp-api-types)](https://jsr.io/@pulsate/exp-api-types)
+[![npm](https://img.shields.io/npm/v/@pulsate-dev/exp-api-types)](https://www.npmjs.com/package/@pulsate-dev/exp-api-types)
+
 TypeScript types and a Fetch API client generated from the Pulsate OpenAPI
 schema.
 
