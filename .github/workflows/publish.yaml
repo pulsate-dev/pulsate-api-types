@@ -31,7 +31,7 @@ jobs:
         run: pnpm generate
 
       - name: Verify generated types
-        run: git diff --exit-code -- src
+        run: test -z "$(git status --porcelain -- src)"
 
       - name: Build npm package
         run: pnpm build
