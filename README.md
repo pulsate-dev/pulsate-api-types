@@ -2,21 +2,18 @@
 
 [![JSR](https://jsr.io/badges/@pulsate/exp-api-types)](https://jsr.io/@pulsate/exp-api-types)
 [![npm](https://img.shields.io/npm/v/@pulsate-dev/exp-api-types)](https://www.npmjs.com/package/@pulsate-dev/exp-api-types)
+[![CI](https://github.com/pulsate-dev/pulsate-api-types/actions/workflows/ci.yaml/badge.svg)](https://github.com/pulsate-dev/pulsate-api-types/actions/workflows/ci.yaml)
+[![Publish](https://github.com/pulsate-dev/pulsate-api-types/actions/workflows/publish.yaml/badge.svg)](https://github.com/pulsate-dev/pulsate-api-types/actions/workflows/publish.yaml)
 
-TypeScript types and a Fetch API client generated from the Pulsate OpenAPI
-schema.
+TypeScript types and a Fetch API client generated from the Pulsate OpenAPI schema.
 
-The source package is published as `@pulsate/exp-api-types` on JSR and as
-`@pulsate-dev/exp-api-types` on npm.
+The source package is published as `@pulsate/exp-api-types` on JSR and as `@pulsate-dev/exp-api-types` on npm.
 
 ## Install
 
 ```sh
-deno add jsr:@pulsate/exp-api-types
-```
-
-```sh
 npm install @pulsate-dev/exp-api-types
+deno add jsr:@pulsate/exp-api-types
 ```
 
 ## Use Fetch Client
