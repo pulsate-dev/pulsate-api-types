@@ -33,11 +33,14 @@
     "ci:check": "biome ci ."
   },
   "packageManager": "pnpm@10.13.1",
-  "devDependencies": {
-    "@biomejs/biome": "2.6.6",
+  "dependencies": {
+    "@pulsate-dev/api-schema": "0.1.1",
     "@hey-api/openapi-ts": "0.99.0",
     "@pulsate-dev/api-schema": "0.1.0",
     "@types/node": "24.19.2",
     "typescript": "5.9.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.6",
   }
 }
