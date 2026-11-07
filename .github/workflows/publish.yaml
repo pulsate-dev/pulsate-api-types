@@ -22,8 +22,8 @@ jobs:
 
       - name: Verify release tag
         run: |
-          npm_version=$(node -p 'require("./package.json").version')
-          jsr_version=$(node -p 'require("./jsr.json").version')
+          npm_version=$(cat ./package.json | jq -r .version)
+          jsr_version=$(cat ./jsr.json | jq -r .version)
           test "${GITHUB_REF_NAME}" = "v${npm_version}"
           test "${npm_version}" = "${jsr_version}"
 
