@@ -15,8 +15,8 @@ importers:
         specifier: 0.99.0
         version: 0.99.0(typescript@5.9.3)
       '@pulsate-dev/api-schema':
-        specifier: 0.1.0
-        version: 0.1.0
+        specifier: 0.1.1
+        version: 0.1.1
       '@types/node':
         specifier: 24.19.2
         version: 24.19.2
@@ -123,8 +123,8 @@ packages:
     resolution: {integrity: sha512-9I2Zn6+NJLfaGoz9jN3lpwDgAYvfGeNYdbAIjJOqzs4Tpc+VU3Jqq4IofSUBKajiDS8k9fZIg18/z13mpk1bsA==}
     engines: {node: '>=8'}
 
-  '@pulsate-dev/api-schema@0.1.0':
-    resolution: {integrity: sha512-q8o/LENURo6qShfWjrFm3L/8RQFgArFTTbFm+NPG2uMo+HTTDvWQffVPk6J+yHYTYbPzmh53wLNWE8ygbiu1Mw==}
+  '@pulsate-dev/api-schema@0.1.1':
+    resolution: {integrity: sha512-hE4nnTTjLvRB09dlH7R0D/cc5q4jO3CO77nJEjNhMl8iqi8S4mnO84w1m3+2ucuLbgoZqxsGFB+AjlvdPz5cpA==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -401,7 +401,7 @@ snapshots:
 
   '@lukeed/ms@2.0.2': {}
 
-  '@pulsate-dev/api-schema@0.1.0': {}
+  '@pulsate-dev/api-schema@0.1.1': {}
 
   '@types/json-schema@7.0.15': {}
 
