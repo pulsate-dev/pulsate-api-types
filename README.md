@@ -53,33 +53,36 @@ export function Timeline({ timeline }: TimelineProps) {
 
 ## Generate Types
 
-Requirements: Deno 2.
+Requirements: [mise](https://mise.jdx.dev/) (installs Node.js and pnpm).
 
 ```bash
-deno task build
+mise install
+pnpm install
+pnpm generate
 ```
 
-`deno task build` fetches the OpenAPI schema from the fixed
-`@pulsate-dev/api-schema` version in `deno.json`, generates `src/`, and does not
-require a locally copied schema file. OpenAPI descriptions are emitted as JSDoc
-comments in generated types and operation functions.
+`pnpm generate` writes the OpenAPI schema from the fixed
+`@pulsate-dev/api-schema` version in `package.json`, generates `src/`, and does
+not require a locally copied schema file. OpenAPI descriptions are emitted as
+JSDoc comments in generated types and operation functions.
 
 To update the schema, explicitly change the `@pulsate-dev/api-schema` version in
-`deno.json` and `package.json`, then regenerate the types and lockfile.
+`package.json`, then regenerate the types and lockfile.
 
 ## Build npm Package
 
-The npm package is generated with dnt.
+The npm package is compiled from `src/` into `dist/` with `tsc`.
 
 ```bash
-deno task build-npm
+pnpm build
 ```
 
 ## Release
 
-Push a `v<version>` tag matching `deno.json`'s `version`. GitHub Actions
-verifies generated types, publishes `@pulsate/exp-api-types` to JSR, then
-publishes `@pulsate-dev/exp-api-types` to npm.
+Push a `v<version>` tag matching `version` in both `package.json` and
+`jsr.json`. GitHub Actions verifies generated types, publishes
+`@pulsate/exp-api-types` to JSR, then publishes `@pulsate-dev/exp-api-types` to
+npm.
 
 ## Licenses
 

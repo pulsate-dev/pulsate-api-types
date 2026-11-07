@@ -1,25 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["local>pulsate-dev/renovate-conf"],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "managerFilePatterns": ["/deno\\.json$/"],
-      "matchStrings": [
-        "\\\"@pulsate-dev/api-schema\\\": \\\"npm:(?<depName>@pulsate-dev/api-schema)@(?<currentValue>[^/]+)\\/schema\\.json\\\"",
-        "npm:(?<depName>@hey-api/openapi-ts)@(?<currentValue>[^\\\" ]+)"
-      ],
-      "datasourceTemplate": "npm"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": ["/deno\\.json$/"],
-      "matchStrings": [
-        "\\\"@deno/dnt\\\": \\\"jsr:(?<depName>@deno/dnt)@(?<currentValue>[^\\\"]+)\\\""
-      ],
-      "datasourceTemplate": "jsr"
-    }
-  ],
   "packageRules": [
     {
       "matchPackageNames": ["@pulsate-dev/api-schema"],
