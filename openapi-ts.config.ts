@@ -1,24 +1,24 @@
-import { defineConfig } from "@hey-api/openapi-ts";
+import { defineConfig } from '@hey-api/openapi-ts';
 
 export default defineConfig({
-  input: "./.generated/schema.json",
+  input: './.generated/schema.json',
   output: {
     module: {
-      extension: ".ts",
+      extension: '.ts',
     },
-    path: "src/",
+    path: 'src/',
   },
   plugins: [
     {
-      name: "@hey-api/typescript",
+      name: '@hey-api/typescript',
       comments: true,
     },
     {
-      name: "@hey-api/client-fetch",
+      name: '@hey-api/client-fetch',
       includeInEntry: true,
     },
     {
-      name: "@hey-api/sdk",
+      name: '@hey-api/sdk',
       comments: true,
     },
   ],
