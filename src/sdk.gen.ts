@@ -60,6 +60,25 @@ export const postV0AccountsNameVerifyEmail = <ThrowOnError extends boolean = fal
 
 export const getV0AccountsIdentifier = <ThrowOnError extends boolean = false>(options: Options<GetV0AccountsIdentifierData, ThrowOnError>): RequestResult<GetV0AccountsIdentifierResponses, GetV0AccountsIdentifierErrors, ThrowOnError> => (options.client ?? client).get<GetV0AccountsIdentifierResponses, GetV0AccountsIdentifierErrors, ThrowOnError>({ url: '/v0/accounts/:identifier', ...options });
 
+export const postV0AccountsNameResendVerifyEmail = <ThrowOnError extends boolean = false>(options: Options<PostV0AccountsNameResendVerifyEmailData, ThrowOnError>): RequestResult<PostV0AccountsNameResendVerifyEmailResponses, PostV0AccountsNameResendVerifyEmailErrors, ThrowOnError> => (options.client ?? client).post<PostV0AccountsNameResendVerifyEmailResponses, PostV0AccountsNameResendVerifyEmailErrors, ThrowOnError>({
+    url: '/v0/accounts/:name/resend_verify_email',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+export const getV0AccountsIdFollowing = <ThrowOnError extends boolean = false>(options: Options<GetV0AccountsIdFollowingData, ThrowOnError>): RequestResult<GetV0AccountsIdFollowingResponses, GetV0AccountsIdFollowingErrors, ThrowOnError> => (options.client ?? client).get<GetV0AccountsIdFollowingResponses, GetV0AccountsIdFollowingErrors, ThrowOnError>({ url: '/v0/accounts/:id/following', ...options });
+
+export const getV0AccountsIdFollower = <ThrowOnError extends boolean = false>(options: Options<GetV0AccountsIdFollowerData, ThrowOnError>): RequestResult<GetV0AccountsIdFollowerResponses, GetV0AccountsIdFollowerErrors, ThrowOnError> => (options.client ?? client).get<GetV0AccountsIdFollowerResponses, GetV0AccountsIdFollowerErrors, ThrowOnError>({ url: '/v0/accounts/:id/follower', ...options });
+
+export const getV0AccountsIdRelationships = <ThrowOnError extends boolean = false>(options: Options<GetV0AccountsIdRelationshipsData, ThrowOnError>): RequestResult<GetV0AccountsIdRelationshipsResponses, GetV0AccountsIdRelationshipsErrors, ThrowOnError> => (options.client ?? client).get<GetV0AccountsIdRelationshipsResponses, GetV0AccountsIdRelationshipsErrors, ThrowOnError>({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/v0/accounts/:id/relationships',
+    ...options
+});
+
 export const postV0Login = <ThrowOnError extends boolean = false>(options?: Options<PostV0LoginData, ThrowOnError>): RequestResult<PostV0LoginResponses, PostV0LoginErrors, ThrowOnError> => (options?.client ?? client).post<PostV0LoginResponses, PostV0LoginErrors, ThrowOnError>({
     url: '/v0/login',
     ...options,
@@ -111,19 +130,6 @@ export const postV0AccountsNameFollow = <ThrowOnError extends boolean = false>(o
     }
 });
 
-export const postV0AccountsNameResendVerifyEmail = <ThrowOnError extends boolean = false>(options: Options<PostV0AccountsNameResendVerifyEmailData, ThrowOnError>): RequestResult<PostV0AccountsNameResendVerifyEmailResponses, PostV0AccountsNameResendVerifyEmailErrors, ThrowOnError> => (options.client ?? client).post<PostV0AccountsNameResendVerifyEmailResponses, PostV0AccountsNameResendVerifyEmailErrors, ThrowOnError>({
-    url: '/v0/accounts/:name/resend_verify_email',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-export const getV0AccountsIdFollowing = <ThrowOnError extends boolean = false>(options: Options<GetV0AccountsIdFollowingData, ThrowOnError>): RequestResult<GetV0AccountsIdFollowingResponses, GetV0AccountsIdFollowingErrors, ThrowOnError> => (options.client ?? client).get<GetV0AccountsIdFollowingResponses, GetV0AccountsIdFollowingErrors, ThrowOnError>({ url: '/v0/accounts/:id/following', ...options });
-
-export const getV0AccountsIdFollower = <ThrowOnError extends boolean = false>(options: Options<GetV0AccountsIdFollowerData, ThrowOnError>): RequestResult<GetV0AccountsIdFollowerResponses, GetV0AccountsIdFollowerErrors, ThrowOnError> => (options.client ?? client).get<GetV0AccountsIdFollowerResponses, GetV0AccountsIdFollowerErrors, ThrowOnError>({ url: '/v0/accounts/:id/follower', ...options });
-
 export const deleteV0AccountsNameAvatar = <ThrowOnError extends boolean = false>(options: Options<DeleteV0AccountsNameAvatarData, ThrowOnError>): RequestResult<DeleteV0AccountsNameAvatarResponses, DeleteV0AccountsNameAvatarErrors, ThrowOnError> => (options.client ?? client).delete<DeleteV0AccountsNameAvatarResponses, DeleteV0AccountsNameAvatarErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/v0/accounts/:name/avatar',
@@ -154,12 +160,6 @@ export const postV0AccountsNameHeader = <ThrowOnError extends boolean = false>(o
         'Content-Type': 'application/json',
         ...options.headers
     }
-});
-
-export const getV0AccountsIdRelationships = <ThrowOnError extends boolean = false>(options: Options<GetV0AccountsIdRelationshipsData, ThrowOnError>): RequestResult<GetV0AccountsIdRelationshipsResponses, GetV0AccountsIdRelationshipsErrors, ThrowOnError> => (options.client ?? client).get<GetV0AccountsIdRelationshipsResponses, GetV0AccountsIdRelationshipsErrors, ThrowOnError>({
-    security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/v0/accounts/:id/relationships',
-    ...options
 });
 
 export const postV0Notes = <ThrowOnError extends boolean = false>(options?: Options<PostV0NotesData, ThrowOnError>): RequestResult<PostV0NotesResponses, PostV0NotesErrors, ThrowOnError> => (options?.client ?? client).post<PostV0NotesResponses, PostV0NotesErrors, ThrowOnError>({

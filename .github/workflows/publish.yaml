@@ -13,33 +13,33 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
+      - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
 
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: 24.12.0
-          registry-url: https://registry.npmjs.org
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Verify release tag
         run: |
-          version=$(deno eval 'const { version } = JSON.parse(await Deno.readTextFile("deno.json")); console.log(version)')
-          test "${GITHUB_REF_NAME}" = "v${version}"
+          npm_version=$(cat ./package.json | jq -r .version)
+          jsr_version=$(cat ./jsr.json | jq -r .version)
+          test "${GITHUB_REF_NAME}" = "v${npm_version}"
+          test "${npm_version}" = "${jsr_version}"
 
       - name: Generate types
-        run: deno task build
+        run: pnpm generate
 
       - name: Verify generated types
-        run: git diff --exit-code -- src
-
-      - name: Publish to JSR
-        run: deno publish
+        run: test -z "$(git status --porcelain -- src)"
 
       - name: Build npm package
-        run: deno task build-npm
+        run: pnpm build
+
+      - name: Publish to JSR
+        run: npx --yes jsr@0.14.3 publish
 
       - name: Publish to npm
-        run: npm publish ./npm --access public --provenance
+        run: |
+          npm config set registry https://registry.npmjs.org
+          npm publish --access public --provenance

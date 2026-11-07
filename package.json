@@ -1,16 +1,43 @@
 {
   "name": "@pulsate-dev/exp-api-types",
   "version": "0.1.2",
+  "description": "TypeScript types and Fetch API client for Pulsate (Experimental)",
   "license": "Apache-2.0",
-  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pulsate-dev/pulsate-api-types.git"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
-    "build": "deno task build",
-    "build-node-package": "deno task build-npm"
+    "prepare-schema": "node scripts/prepare-schema.ts",
+    "generate": "pnpm prepare-schema && openapi-ts",
+    "build": "pnpm generate && tsc -p tsconfig.build.json",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit",
+    "check": "biome check .",
+    "ci:check": "biome ci ."
   },
   "packageManager": "pnpm@10.13.1",
-  "dependencies": {
-    "@pulsate-dev/api-schema": "0.1.1",
+  "devDependencies": {
+    "@biomejs/biome": "2.6.6",
     "@hey-api/openapi-ts": "0.99.0",
+    "@pulsate-dev/api-schema": "0.1.1",
+    "@types/node": "24.19.2",
     "typescript": "5.9.3"
   }
 }

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["local>pulsate-dev/renovate-conf"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["@pulsate-dev/api-schema"],
+      "automerge": false,
+      "autoApprove": false
+    }
+  ]
+}

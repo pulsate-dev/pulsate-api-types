@@ -154,6 +154,34 @@ export type GetAccountResponse = {
     created_at?: string;
 };
 
+export type ResendVerificationEmailRequest = {
+    /**
+     * Captcha token (e.g. reCAPTCHA, Cloudflare Trunstile)
+     */
+    captcha_token: string;
+};
+
+export type GetAccountFollowingResponse = Array<GetAccountResponse>;
+
+export type GetAccountRelationshipsResponse = {
+    /**
+     * Account ID
+     */
+    id: string;
+    /**
+     * Whether the account is followed by the target account
+     */
+    is_followed: boolean;
+    /**
+     * Whether the account is following the target account
+     */
+    is_following: boolean;
+    /**
+     * Whether a follow request has been sent to the target account
+     */
+    is_follow_requesting: boolean;
+};
+
 export type LoginResponse = {
     /**
      * authorization token
@@ -181,34 +209,6 @@ export type RefreshResponse = {
      * authorization token
      */
     authorization_token: string;
-};
-
-export type ResendVerificationEmailRequest = {
-    /**
-     * Captcha token (e.g. reCAPTCHA, Cloudflare Trunstile)
-     */
-    captcha_token: string;
-};
-
-export type GetAccountFollowingResponse = Array<GetAccountResponse>;
-
-export type GetAccountRelationshipsResponse = {
-    /**
-     * Account ID
-     */
-    id: string;
-    /**
-     * Whether the account is followed by the target account
-     */
-    is_followed: boolean;
-    /**
-     * Whether the account is following the target account
-     */
-    is_following: boolean;
-    /**
-     * Whether a follow request has been sent to the target account
-     */
-    is_follow_requesting: boolean;
 };
 
 export type GetAccountTimelineResponse = Array<{
@@ -884,6 +884,180 @@ export type GetV0AccountsIdentifierResponses = {
 
 export type GetV0AccountsIdentifierResponse = GetV0AccountsIdentifierResponses[keyof GetV0AccountsIdentifierResponses];
 
+export type PostV0AccountsNameResendVerifyEmailData = {
+    body?: ResendVerificationEmailRequest;
+    path: {
+        /**
+         * Characters must be [A-Za-z0-9-.] The first and last characters must be [A-Za-z0-9-.]
+         */
+        name: string;
+    };
+    query?: never;
+    url: '/v0/accounts/:name/resend_verify_email';
+};
+
+export type PostV0AccountsNameResendVerifyEmailErrors = {
+    /**
+     * account email is already verified.
+     */
+    400: {
+        /**
+         * Account email address is already verified.
+         */
+        error: 'ACCOUNT_ALREADY_VERIFIED';
+    };
+    /**
+     * You can not do this action.
+     */
+    403: {
+        /**
+         * You can't do this action.
+         */
+        error: 'NO_PERMISSION';
+    };
+    /**
+     * account not found
+     */
+    404: {
+        /**
+         * Account not found.
+         */
+        error: 'ACCOUNT_NOT_FOUND';
+    };
+    /**
+     * Internal Server Error
+     */
+    500: InternalErrorResponse;
+};
+
+export type PostV0AccountsNameResendVerifyEmailError = PostV0AccountsNameResendVerifyEmailErrors[keyof PostV0AccountsNameResendVerifyEmailErrors];
+
+export type PostV0AccountsNameResendVerifyEmailResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostV0AccountsNameResendVerifyEmailResponse = PostV0AccountsNameResendVerifyEmailResponses[keyof PostV0AccountsNameResendVerifyEmailResponses];
+
+export type GetV0AccountsIdFollowingData = {
+    body?: never;
+    path: {
+        /**
+         * Characters must be [A-Za-z0-9-.] The first and last characters must be [A-Za-z0-9-.]
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/v0/accounts/:id/following';
+};
+
+export type GetV0AccountsIdFollowingErrors = {
+    /**
+     * account not found
+     */
+    404: {
+        /**
+         * Account not found.
+         */
+        error: 'ACCOUNT_NOT_FOUND';
+    };
+    /**
+     * Internal Server Error
+     */
+    500: InternalErrorResponse;
+};
+
+export type GetV0AccountsIdFollowingError = GetV0AccountsIdFollowingErrors[keyof GetV0AccountsIdFollowingErrors];
+
+export type GetV0AccountsIdFollowingResponses = {
+    /**
+     * OK
+     */
+    200: GetAccountFollowingResponse;
+};
+
+export type GetV0AccountsIdFollowingResponse = GetV0AccountsIdFollowingResponses[keyof GetV0AccountsIdFollowingResponses];
+
+export type GetV0AccountsIdFollowerData = {
+    body?: never;
+    path: {
+        /**
+         * Characters must be [A-Za-z0-9-.] The first and last characters must be [A-Za-z0-9-.]
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/v0/accounts/:id/follower';
+};
+
+export type GetV0AccountsIdFollowerErrors = {
+    /**
+     * account not found
+     */
+    404: {
+        /**
+         * Account not found.
+         */
+        error: 'ACCOUNT_NOT_FOUND';
+    };
+    /**
+     * Internal Server Error
+     */
+    500: InternalErrorResponse;
+};
+
+export type GetV0AccountsIdFollowerError = GetV0AccountsIdFollowerErrors[keyof GetV0AccountsIdFollowerErrors];
+
+export type GetV0AccountsIdFollowerResponses = {
+    /**
+     * OK
+     */
+    200: GetAccountFollowingResponse;
+};
+
+export type GetV0AccountsIdFollowerResponse = GetV0AccountsIdFollowerResponses[keyof GetV0AccountsIdFollowerResponses];
+
+export type GetV0AccountsIdRelationshipsData = {
+    body?: never;
+    path: {
+        /**
+         * Account ID
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/v0/accounts/:id/relationships';
+};
+
+export type GetV0AccountsIdRelationshipsErrors = {
+    /**
+     * account not found
+     */
+    404: {
+        /**
+         * Account not found.
+         */
+        error: 'ACCOUNT_NOT_FOUND';
+    };
+    /**
+     * Internal Server Error
+     */
+    500: InternalErrorResponse;
+};
+
+export type GetV0AccountsIdRelationshipsError = GetV0AccountsIdRelationshipsErrors[keyof GetV0AccountsIdRelationshipsErrors];
+
+export type GetV0AccountsIdRelationshipsResponses = {
+    /**
+     * OK
+     */
+    200: GetAccountRelationshipsResponse;
+};
+
+export type GetV0AccountsIdRelationshipsResponse = GetV0AccountsIdRelationshipsResponses[keyof GetV0AccountsIdRelationshipsResponses];
+
 export type PostV0LoginData = {
     body?: LoginRequest;
     path?: never;
@@ -1156,141 +1330,6 @@ export type PostV0AccountsNameFollowResponses = {
 
 export type PostV0AccountsNameFollowResponse = PostV0AccountsNameFollowResponses[keyof PostV0AccountsNameFollowResponses];
 
-export type PostV0AccountsNameResendVerifyEmailData = {
-    body?: ResendVerificationEmailRequest;
-    path: {
-        /**
-         * Characters must be [A-Za-z0-9-.] The first and last characters must be [A-Za-z0-9-.]
-         */
-        name: string;
-    };
-    query?: never;
-    url: '/v0/accounts/:name/resend_verify_email';
-};
-
-export type PostV0AccountsNameResendVerifyEmailErrors = {
-    /**
-     * account email is already verified.
-     */
-    400: {
-        /**
-         * Account email address is already verified.
-         */
-        error: 'ACCOUNT_ALREADY_VERIFIED';
-    };
-    /**
-     * You can not do this action.
-     */
-    403: {
-        /**
-         * You can't do this action.
-         */
-        error: 'NO_PERMISSION';
-    };
-    /**
-     * account not found
-     */
-    404: {
-        /**
-         * Account not found.
-         */
-        error: 'ACCOUNT_NOT_FOUND';
-    };
-    /**
-     * Internal Server Error
-     */
-    500: InternalErrorResponse;
-};
-
-export type PostV0AccountsNameResendVerifyEmailError = PostV0AccountsNameResendVerifyEmailErrors[keyof PostV0AccountsNameResendVerifyEmailErrors];
-
-export type PostV0AccountsNameResendVerifyEmailResponses = {
-    /**
-     * No Content
-     */
-    204: void;
-};
-
-export type PostV0AccountsNameResendVerifyEmailResponse = PostV0AccountsNameResendVerifyEmailResponses[keyof PostV0AccountsNameResendVerifyEmailResponses];
-
-export type GetV0AccountsIdFollowingData = {
-    body?: never;
-    path: {
-        /**
-         * Characters must be [A-Za-z0-9-.] The first and last characters must be [A-Za-z0-9-.]
-         */
-        id: string;
-    };
-    query?: never;
-    url: '/v0/accounts/:id/following';
-};
-
-export type GetV0AccountsIdFollowingErrors = {
-    /**
-     * account not found
-     */
-    404: {
-        /**
-         * Account not found.
-         */
-        error: 'ACCOUNT_NOT_FOUND';
-    };
-    /**
-     * Internal Server Error
-     */
-    500: InternalErrorResponse;
-};
-
-export type GetV0AccountsIdFollowingError = GetV0AccountsIdFollowingErrors[keyof GetV0AccountsIdFollowingErrors];
-
-export type GetV0AccountsIdFollowingResponses = {
-    /**
-     * OK
-     */
-    200: GetAccountFollowingResponse;
-};
-
-export type GetV0AccountsIdFollowingResponse = GetV0AccountsIdFollowingResponses[keyof GetV0AccountsIdFollowingResponses];
-
-export type GetV0AccountsIdFollowerData = {
-    body?: never;
-    path: {
-        /**
-         * Characters must be [A-Za-z0-9-.] The first and last characters must be [A-Za-z0-9-.]
-         */
-        id: string;
-    };
-    query?: never;
-    url: '/v0/accounts/:id/follower';
-};
-
-export type GetV0AccountsIdFollowerErrors = {
-    /**
-     * account not found
-     */
-    404: {
-        /**
-         * Account not found.
-         */
-        error: 'ACCOUNT_NOT_FOUND';
-    };
-    /**
-     * Internal Server Error
-     */
-    500: InternalErrorResponse;
-};
-
-export type GetV0AccountsIdFollowerError = GetV0AccountsIdFollowerErrors[keyof GetV0AccountsIdFollowerErrors];
-
-export type GetV0AccountsIdFollowerResponses = {
-    /**
-     * OK
-     */
-    200: GetAccountFollowingResponse;
-};
-
-export type GetV0AccountsIdFollowerResponse = GetV0AccountsIdFollowerResponses[keyof GetV0AccountsIdFollowerResponses];
-
 export type DeleteV0AccountsNameAvatarData = {
     body?: never;
     path: {
@@ -1486,45 +1525,6 @@ export type PostV0AccountsNameHeaderResponses = {
 };
 
 export type PostV0AccountsNameHeaderResponse = PostV0AccountsNameHeaderResponses[keyof PostV0AccountsNameHeaderResponses];
-
-export type GetV0AccountsIdRelationshipsData = {
-    body?: never;
-    path: {
-        /**
-         * Account ID
-         */
-        id: string;
-    };
-    query?: never;
-    url: '/v0/accounts/:id/relationships';
-};
-
-export type GetV0AccountsIdRelationshipsErrors = {
-    /**
-     * account not found
-     */
-    404: {
-        /**
-         * Account not found.
-         */
-        error: 'ACCOUNT_NOT_FOUND';
-    };
-    /**
-     * Internal Server Error
-     */
-    500: InternalErrorResponse;
-};
-
-export type GetV0AccountsIdRelationshipsError = GetV0AccountsIdRelationshipsErrors[keyof GetV0AccountsIdRelationshipsErrors];
-
-export type GetV0AccountsIdRelationshipsResponses = {
-    /**
-     * OK
-     */
-    200: GetAccountRelationshipsResponse;
-};
-
-export type GetV0AccountsIdRelationshipsResponse = GetV0AccountsIdRelationshipsResponses[keyof GetV0AccountsIdRelationshipsResponses];
 
 export type PostV0NotesData = {
     body?: {
